@@ -2,7 +2,7 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 const rickshawImg = new Image();
-rickshawImg.src = "rickshaw.png";  // Ensure you have this image in the same folder
+rickshawImg.src = "rickshaw.png";  // Add your own Rickshaw image here
 
 let rickshaw = {
   x: 100,
