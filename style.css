@@ -1,16 +1,19 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f0f8ff;
+  background-color: #e6f7ff;
   text-align: center;
-  padding: 50px;
+  margin: 0;
+  padding: 0;
 }
 
-.game-container {
-  background-color: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  display: inline-block;
+canvas {
+  border: 2px solid #333;
+  background: linear-gradient(#87ceeb, #fff);
+  margin-top: 20px;
+}
+
+.controls {
+  margin-top: 20px;
 }
 
 button {
