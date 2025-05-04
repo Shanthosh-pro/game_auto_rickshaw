@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #e6f7ff;
+  background-color: #f0f8ff;
   text-align: center;
   margin: 0;
   padding: 0;
@@ -8,7 +8,7 @@ body {
 
 canvas {
   border: 2px solid #333;
-  background: linear-gradient(#87ceeb, #fff);
+  background-color: #ccf2ff;
   margin-top: 20px;
 }
 
@@ -18,7 +18,6 @@ canvas {
 
 button {
   padding: 10px 20px;
-  margin: 10px;
   font-size: 16px;
   cursor: pointer;
 }
