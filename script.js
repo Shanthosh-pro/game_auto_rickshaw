@@ -1,22 +1,29 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-const rickshawImg = new Image();
-rickshawImg.src = "rickshaw.png";  // Add your own Rickshaw image here
+const truckImg = new Image();
+truckImg.src = "truck.png";  // Your truck image
 
-let rickshaw = {
-  x: 100,
-  y: 300,
+const roadImg = new Image();
+roadImg.src = "road.png";  // Your road image
+
+let truck = {
+  x: 350,  // Start at the middle of the canvas
+  y: 400,
   width: 80,
   height: 80,
-  speed: 5,
+  speed: 0,
+  maxSpeed: 5,
+  acceleration: 0.1,
+  deceleration: 0.05,
+  turnSpeed: 3,
 };
 
-let obstacles = [];
 let isGameRunning = false;
-let score = 0;
-
 let keys = {};
+let distanceTraveled = 0;
+let obstacles = [];
+let gameSpeed = 2;
 
 document.addEventListener("keydown", (e) => {
   keys[e.key] = true;
@@ -29,80 +36,92 @@ document.getElementById("startBtn").addEventListener("click", startGame);
 
 function startGame() {
   isGameRunning = true;
-  score = 0;
-  rickshaw.x = 100;
-  rickshaw.y = 300;
+  distanceTraveled = 0;
+  truck.x = 350;
+  truck.y = 400;
+  truck.speed = 0;
   obstacles = [];
   gameLoop();
 }
 
 function updateGame() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
-  // Road
-  ctx.fillStyle = "#444";
-  ctx.fillRect(0, canvas.height - 100, canvas.width, 100);
 
-  // Move Rickshaw
-  if (keys["ArrowRight"] && rickshaw.x < canvas.width - rickshaw.width) {
-    rickshaw.x += rickshaw.speed;
+  // Road background
+  ctx.drawImage(roadImg, 0, 0, canvas.width, canvas.height);
+
+  // Move truck forward or backward
+  if (keys["ArrowUp"] && truck.speed < truck.maxSpeed) {
+    truck.speed += truck.acceleration;
   }
-  if (keys["ArrowLeft"] && rickshaw.x > 0) {
-    rickshaw.x -= rickshaw.speed;
-  }
-  if (keys["ArrowUp"] && rickshaw.y > 0) {
-    rickshaw.y -= rickshaw.speed;
-  }
-  if (keys["ArrowDown"] && rickshaw.y < canvas.height - rickshaw.height) {
-    rickshaw.y += rickshaw.speed;
+  if (keys["ArrowDown"] && truck.speed > 0) {
+    truck.speed -= truck.deceleration;
   }
 
-  ctx.drawImage(rickshawImg, rickshaw.x, rickshaw.y, rickshaw.width, rickshaw.height);
+  // Turn truck left or right
+  if (keys["ArrowLeft"]) {
+    truck.x -= truck.turnSpeed;
+  }
+  if (keys["ArrowRight"]) {
+    truck.x += truck.turnSpeed;
+  }
 
-  // Update obstacles
-  if (Math.random() < 0.03) {
-    let obstacleX = Math.random() * canvas.width;
+  // Apply the truck's speed to the Y position (moving forward)
+  truck.y -= truck.speed;
+
+  // Draw truck
+  ctx.drawImage(truckImg, truck.x, truck.y, truck.width, truck.height);
+
+  // Obstacles (randomly spawning objects on the road)
+  if (Math.random() < 0.02) {
+    let obstacleX = Math.random() * (canvas.width - 50);
     obstacles.push({ x: obstacleX, y: 0 });
   }
 
-  // Move obstacles
+  // Move obstacles down the screen
   for (let i = 0; i < obstacles.length; i++) {
-    obstacles[i].y += 4; // speed of obstacles
+    obstacles[i].y += gameSpeed;
 
     // Draw obstacles
     ctx.fillStyle = "red";
     ctx.fillRect(obstacles[i].x, obstacles[i].y, 50, 50);
 
-    // Check collision
+    // Collision detection
     if (
-      rickshaw.x < obstacles[i].x + 50 &&
-      rickshaw.x + rickshaw.width > obstacles[i].x &&
-      rickshaw.y < obstacles[i].y + 50 &&
-      rickshaw.y + rickshaw.height > obstacles[i].y
+      truck.x < obstacles[i].x + 50 &&
+      truck.x + truck.width > obstacles[i].x &&
+      truck.y < obstacles[i].y + 50 &&
+      truck.y + truck.height > obstacles[i].y
     ) {
       isGameRunning = false;
-      alert("Game Over! Final Score: " + score);
+      alert("Game Over! You crashed.");
       return;
     }
 
-    // Remove obstacles that move off screen
+    // Remove obstacles that move off-screen
     if (obstacles[i].y > canvas.height) {
       obstacles.splice(i, 1);
-      score++;
+      distanceTraveled += 0.1;
     }
   }
 
-  // Score display
+  // Display Distance Traveled
   ctx.fillStyle = "black";
   ctx.font = "20px Arial";
-  ctx.fillText("Score: " + score, 10, 30);
+  ctx.fillText("Distance: " + distanceTraveled.toFixed(1) + " km", 10, 30);
+
+  // Check if the player reached the target distance
+  if (distanceTraveled >= 45) {
+    isGameRunning = false;
+    alert("You reached 45 km! You win!");
+  }
 
   if (isGameRunning) {
     requestAnimationFrame(updateGame);
   }
 }
 
-rickshawImg.onload = () => {
-  // Wait for the image to load before starting the game
+truckImg.onload = () => {
   document.getElementById("startBtn").style.display = "block";
 };
+
