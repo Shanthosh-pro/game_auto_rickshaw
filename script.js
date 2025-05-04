@@ -2,7 +2,7 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 const rickshawImg = new Image();
-rickshawImg.src = "rickshaw.png";  // Add your own Rickshaw image here
+rickshawImg.src = "rickshaw.png";  // Ensure you have this image in the same folder
 
 let rickshaw = {
   x: 100,
@@ -106,5 +106,3 @@ rickshawImg.onload = () => {
   // Wait for the image to load before starting the game
   document.getElementById("startBtn").style.display = "block";
 };
-
-
