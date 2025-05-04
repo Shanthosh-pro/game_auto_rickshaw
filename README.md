@@ -1,0 +1,1 @@
+# game_auto_rickshaw
