@@ -3,20 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Auto Rishawa Simulator</title>
+  <title>Auto Rishawa Driving Game</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="game-container">
-    <h1>Auto Rishawa Simulator</h1>
+  <h1>Auto Rishawa Simulator</h1>
+  <canvas id="gameCanvas" width="800" height="400"></canvas>
+
+  <div class="controls">
     <p><strong>Money:</strong> ₹<span id="money">0</span></p>
     <p><strong>Rishawa Level:</strong> <span id="level">1</span></p>
-    <p><strong>Income per Ride:</strong> ₹<span id="income">10</span></p>
+    <p><strong>Speed:</strong> <span id="speed">2</span> px/tick</p>
 
-    <button onclick="drive()">Drive Rishawa</button>
     <button onclick="upgrade()">Upgrade Rishawa (₹100)</button>
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
+
