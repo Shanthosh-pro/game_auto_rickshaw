@@ -11,3 +11,10 @@ canvas {
   background: linear-gradient(#87ceeb, #fff);
   margin-top: 20px;
 }
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
